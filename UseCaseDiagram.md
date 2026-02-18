@@ -1,51 +1,42 @@
-# Use Case Diagram
+<img width="603" height="541" alt="Screenshot 2026-02-18 at 9 53 57 PM" src="https://github.com/user-attachments/assets/72be2605-7058-4ca2-8d41-3ec4a5c4f5de" />
+flowchart LR
 
-```mermaid
-usecaseDiagram
-    actor "Security Guard" as Warning
-    actor "Resident" as Resident
-    actor "Society Admin" as Admin
-    actor "System" as System
+    %% Actors
+    SG[👮 Security Guard]
+    R[🏠 Resident]
+    A[🛠 Society Admin]
 
-    package mygat_Application {
-        
-        usecase "Log Visitor Entry" as UC1
-        usecase "Record Visitor Exit" as UC2
-        usecase "Login via OTP" as UC3
-        usecase "Verify Phone Number" as UC4
-        
-        usecase "Receive Visit Notification" as UC5
-        usecase "Approve/Deny Visitor" as UC6
-        usecase "Register Account" as UC7
-        
-        usecase "Verify Resident Registration" as UC8
-        usecase "Deactivate/Ban User" as UC9
-    }
+    %% System Boundary
 
-    Warning --> UC3
-    Warning --> UC1
-    Warning --> UC2
-    
-    Resident --> UC3
-    Resident --> UC7
-    Resident --> UC5
-    Resident --> UC6
+    subgraph mygat_Application
 
-    Admin --> UC3
-    Admin --> UC8
-    Admin --> UC9
+        UC1((Log Visitor Entry))
+        UC2((Record Visitor Exit))
+        UC3((Login via OTP))
+        UC4((Verify Phone Number))
+        UC5((Receive Visit Notification))
+        UC6((Approve / Deny Visitor))
+        UC7((Register Account))
+        UC8((Verify Resident Registration))
+        UC9((Deactivate / Ban User))
 
-    UC3 ..> UC4 : <<include>>
-    UC1 --> UC5 : <<triggers>>
-    UC6 --> Warning : <<notifies>>
+    end
 
-    note right of UC1
-        Guard enters: Name, Phone,
-        Flat #, Purpose, Photo
-    end note
+    %% Actor Connections
+    SG --> UC3
+    SG --> UC1
+    SG --> UC2
 
-    note right of UC6
-        Resident decides:
-        Allow or Deny
-    end note
-```
+    R --> UC3
+    R --> UC7
+    R --> UC5
+    R --> UC6
+
+    A --> UC3
+    A --> UC8
+    A --> UC9
+
+    %% Relationships
+    UC3 -. include .-> UC4
+    UC1 --> UC5
+    UC6 --> SG
